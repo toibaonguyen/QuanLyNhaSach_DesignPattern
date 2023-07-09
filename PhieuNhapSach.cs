@@ -152,5 +152,15 @@ namespace CNPM
                 }
             return bmp;
         }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            bltNS= new NhapSachBLT(new DefaultNhapSachStrategy());
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            bltNS= new NhapSachBLT(new BackupNhapSachStrategy());
+        }
     }
 }
