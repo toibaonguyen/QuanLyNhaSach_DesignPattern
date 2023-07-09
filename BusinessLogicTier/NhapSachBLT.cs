@@ -13,7 +13,7 @@ namespace CNPM
         void ThucHien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns);
     }
 
-    // Chiến lược mặc định, kiểm tra điều kiện và thực hiện các thao tác nhập sách
+    // Chiến lược mặc định
     class DefaultNhapSachStrategy : INhapSachStrategy
     {
         private SachBLT objSach = new SachBLT();
@@ -47,32 +47,37 @@ namespace CNPM
         }
     }
 
-    // Chiến lược backup, nếu không đạt điều kiện thì không thực hiện nhập sách
+    // Chiến lược backup
     class BackupNhapSachStrategy : INhapSachStrategy
     {
-        private Logger logger;
-
-        public BackupNhapSachStrategy(Logger logger)
-        {
-            this.logger = logger;
-        }
+        private SachBLT objSach = new SachBLT();
+        private ThamSoDAT objThamSo = new ThamSoDAT();
+        private NhapSachDAT objNhapSach = new NhapSachDAT();
 
         public bool KiemTraDieuKien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns)
         {
             for (int i = 0; i < list_ctns.Count; i++)
             {
-                if (list_ctns[i].SoLuongNhap < 0)
-                {
-                    logger.Log("Số lượng nhập sách không hợp lệ.");
+                if (list_ctns[i].SoLuongNhap < objThamSo.GetQD1A())
                     return false;
-                }
+                Sach sach = objSach.getSachbyID(list_ctns[i].MaSach);
+                if (sach == null || sach.SoLuongTon > objThamSo.GetQD1B())
+                    return false;
             }
             return true;
         }
 
         public void ThucHien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns)
         {
-            logger.Log("Không thực hiện nhập sách do không đạt điều kiện.");
+            nhapSach.MaPhieuNhap = objNhapSach.ThemPhieuNhap(nhapSach);
+            for (int i = 0; i < list_ctns.Count; i++)
+            {
+                list_ctns[i].MaPhieuNhap = nhapSach.MaPhieuNhap;
+                objNhapSach.ThemChiTietNhapSach(list_ctns[i]);
+                Sach sach = objSach.getSachbyID(list_ctns[i].MaSach);
+                sach.SoLuongTon += list_ctns[i].SoLuongNhap;
+                objSach.Sua(sach);
+            }
         }
     }
 
@@ -97,11 +102,5 @@ namespace CNPM
     }
 
     // Logger để ghi nhật ký
-    class Logger
-    {
-        public void Log(string message)
-        {
-            Console.WriteLine("LOG: " + message);
-        }
-    }
+
 }
