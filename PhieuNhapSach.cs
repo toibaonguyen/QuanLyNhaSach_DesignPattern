@@ -19,7 +19,7 @@ namespace CNPM
         NhapSachBLT bltNS = new NhapSachBLT(new DefaultNhapSachStrategy());
 
         int TongTien = 0;
-
+        
         public PhieuNhapSach()
         {
             InitializeComponent();

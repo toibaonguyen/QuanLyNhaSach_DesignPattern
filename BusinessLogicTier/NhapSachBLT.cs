@@ -6,14 +6,13 @@ using CNPM.DataAccessTier;
 
 namespace CNPM
 {
-    // Interface định nghĩa các chiến lược xử lý nhập sách
+    // Strategy
     interface INhapSachStrategy
     {
         bool KiemTraDieuKien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns);
         void ThucHien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns);
     }
 
-    // Chiến lược mặc định
     class DefaultNhapSachStrategy : INhapSachStrategy
     {
         private SachBLT objSach = new SachBLT();
@@ -47,7 +46,6 @@ namespace CNPM
         }
     }
 
-    // Chiến lược backup
     class BackupNhapSachStrategy : INhapSachStrategy
     {
         private SachBLT objSach = new SachBLT();
@@ -58,10 +56,10 @@ namespace CNPM
         {
             for (int i = 0; i < list_ctns.Count; i++)
             {
-                if (list_ctns[i].SoLuongNhap < objThamSo.GetQD1A())
+                if (list_ctns[i].SoLuongNhap < objThamSo.GetQD2A())
                     return false;
                 Sach sach = objSach.getSachbyID(list_ctns[i].MaSach);
-                if (sach == null || sach.SoLuongTon > objThamSo.GetQD1B())
+                if (sach == null || sach.SoLuongTon > objThamSo.GetQD2B())
                     return false;
             }
             return true;
@@ -100,7 +98,5 @@ namespace CNPM
             return false;
         }
     }
-
-    // Logger để ghi nhật ký
 
 }
