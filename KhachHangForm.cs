@@ -15,6 +15,73 @@ namespace CNPM
         KhachHangBLT objKH = new KhachHangBLT();
         KhachHang dtoKH = new KhachHang();
 
+          // Code thêm vào
+
+        // Định nghĩa giao diện IObserver
+        public interface IObserver
+        {
+            void Notify(string message);
+        }
+
+
+        // Định nghĩa giao diện IObservable
+        public interface IObservable
+        {
+            void Attach(IObserver observer);
+            void Detach(IObserver observer);
+            void Notice(string message);
+        }
+
+        // Lớp ConcreteObservable triển khai giao diện IObservable
+        public class Operation : IObservable
+        {
+            private string message;
+            private List<IObserver> _observers = new List<IObserver>();
+
+            public string Message
+            {
+                get { return message; }
+                set
+                {
+                    if (message != value)
+                    {
+                        message = value;
+                        Notice(message);
+                    }
+                }
+            }
+
+            public void Attach(IObserver observer)
+            {
+                _observers.Add(observer);
+            }
+
+            public void Detach(IObserver observer)
+            {
+                _observers.Remove(observer);
+            }
+
+            public void Notice(string message)
+            {
+                foreach (IObserver observer in _observers)
+                {
+                    observer.Notify(message);
+                }
+            }
+        }
+
+        public class ShowMessage : IObserver
+        {
+            public void Notify(string message)
+            {
+               MessageBox.Show($"Thông báo từ hệ thống: {message}");
+            }
+        }
+
+
+
+        //-----------------------------------------------------------------------//
+
         private void CusTomGroupBoxPaint(object sender, PaintEventArgs e, int width = 2, Color? color = null)
         {
             color = color ?? Color.Gray;
@@ -31,6 +98,15 @@ namespace CNPM
         public KhachHangForm()
         {
             InitializeComponent();
+
+            Operation notifyTracker= new Operation();
+
+            ShowMessage observer= new ShowMessage();
+
+            notifyTracker.Attach(observer);
+
+
+            
             gb_add.Paint += (s, e) => CusTomGroupBoxPaint(s, e);
             gb_info.Paint += (s, e) => CusTomGroupBoxPaint(s, e);
             gb_filter.Paint += (s, e) => CusTomGroupBoxPaint(s, e);
@@ -56,7 +132,7 @@ namespace CNPM
             btnSua.Click += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(txt_info_HoTen.Text))
-                    MessageBox.Show("Phải nhập đầy đủ thông tin", "Sửa thất bại", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    notifyTracker.Notice("Sửa thất bại");
                 else
                 {
                     dtoKH.TenKhachHang = txt_info_HoTen.Text.Trim();
@@ -70,17 +146,17 @@ namespace CNPM
                         foreach (DataGridViewRow row in dgv_KhachHang_info.Rows)
                             if (row.Cells["MaKhachHang"].Value.ToString() == maKH)
                                 dgv_KhachHang_info.CurrentCell = dgv_KhachHang_info.Rows[row.Index].Cells[0];
-                        MessageBox.Show("Sửa thành công");
+                       notifyTracker.Notice("Sửa thành công");
                         showSelected();
                     }
                     else
-                        MessageBox.Show("Sửa thất bại");
+                        notifyTracker.Notice("Sửa thất bại");
                 }
             };
             btn_add.Click += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(txt_add_HoTen.Text))
-                    MessageBox.Show("Phải nhập đầy đủ thông tin", "Thêm thất bại", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    notifyTracker.Notice("Thêm thất bại");
                 else
                 {
                     dtoKH.TenKhachHang = txt_add_HoTen.Text.Trim();
@@ -90,14 +166,14 @@ namespace CNPM
                     if (objKH.Them(dtoKH))
                     {
                         dgv_KhachHang_info.DataSource = objKH.getTable();
-                        MessageBox.Show("Thêm thành công");
+                        notifyTracker.Notice("Thêm thành công");
                         txt_add_HoTen.Text = "";
                         txt_add_Email.Text = "";
                         txt_add_DiaChi.Text = "";
                         txt_add_DienThoai.Text = "";
                     }
                     else
-                        MessageBox.Show("Thêm thất bại");
+                       notifyTracker.Notice("Thêm thất bại");
                 }
             };
             btn_filter.Click += (s, e) =>
