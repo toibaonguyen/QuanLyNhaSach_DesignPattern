@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -6,7 +6,15 @@ using CNPM.DataAccessTier;
 
 namespace CNPM
 {
-    class SachBLT
+
+    interface ISachFactory
+    {
+        DataTable getTable(Sach sach = null);
+        Sach getSachbyID(int ma_sach);
+        int Them(Sach sach);
+        bool Sua(Sach sach);
+    }
+    class SachBLT:ISachFactory
     {
         SachDAT objSach = new SachDAT();
 
