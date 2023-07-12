@@ -17,6 +17,7 @@ namespace CNPM
         ThamSoBLT bltThamSo = new ThamSoBLT();
         //Client của mẫu Strategy
         NhapSachBLT bltNS = new NhapSachBLT(new DefaultNhapSachStrategy());
+        int check = 1;
 
         int TongTien = 0;
         
@@ -37,41 +38,83 @@ namespace CNPM
             panel.BackgroundImage = Gradient2D(panel.ClientRectangle, Color.LawnGreen, Color.LightSkyBlue, Color.GreenYellow, Color.Teal);
             btnThem.Click += (s, e) =>
             {
-                int so_luong_nhap = 0;
-                int so_luong_ton = 0;
-                if (String.IsNullOrWhiteSpace(txt_TenSach.Text) || !int.TryParse(txt_SoLuongTon.Text, out so_luong_ton))
-                    MessageBox.Show("Mã sách không có trong cơ sở dữ liệu", "Thêm chi tiết nhập sách thất bại");
-                else if (!int.TryParse(txt_SoLuongNhap.Text, out so_luong_nhap) || so_luong_nhap < bltThamSo.GetQD1A())
-                    MessageBox.Show("Phải có số lượng nhập phải lớn hơn " + bltThamSo.GetQD1A(), "Thêm chi tiết nhập sách thất bại");
-                else if (so_luong_ton > bltThamSo.GetQD1B())
-                    MessageBox.Show("Số lượng tồn lớn hơn số lượng cần thiết để nhập", "Thêm chi tiết nhập sách thất bại");
+                if (check == 1)
+                {
+                    int so_luong_nhap = 0;
+                    int so_luong_ton = 0;
+                    if (String.IsNullOrWhiteSpace(txt_TenSach.Text) || !int.TryParse(txt_SoLuongTon.Text, out so_luong_ton))
+                        MessageBox.Show("Mã sách không có trong cơ sở dữ liệu", "Thêm chi tiết nhập sách thất bại");
+                    else if (!int.TryParse(txt_SoLuongNhap.Text, out so_luong_nhap) || so_luong_nhap < bltThamSo.GetQD1A())
+                        MessageBox.Show("Phải có số lượng nhập phải lớn hơn " + bltThamSo.GetQD1A(), "Thêm chi tiết nhập sách thất bại");
+                    else if (so_luong_ton > bltThamSo.GetQD1B())
+                        MessageBox.Show("Số lượng tồn lớn hơn số lượng cần thiết để nhập", "Thêm chi tiết nhập sách thất bại");
+                    else
+                    {
+                        bool add = true;
+                        foreach (DataGridViewRow dr in dataGridView.Rows)
+                            if (dr.Cells["MaSach"].Value.ToString() == cb_MaSach.Text)
+                            {
+                                dr.Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
+                                add = false;
+                                break;
+                            }
+                        if (add)
+                        {
+                            var index = dataGridView.Rows.Add();
+                            dataGridView.Rows[index].Cells["MaSach"].Value = cb_MaSach.Text;
+                            dataGridView.Rows[index].Cells["TenSach"].Value = txt_TenSach.Text;
+                            dataGridView.Rows[index].Cells["SoLuongTon"].Value = txt_SoLuongTon.Text;
+                            dataGridView.Rows[index].Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
+                            dataGridView.Rows[index].Cells["DonGia"].Value = txt_DonGia.Text;
+                        }
+
+                        foreach (DataGridViewRow dr in dataGridView.Rows)
+                        {
+                            so_luong_nhap = Convert.ToInt32(dr.Cells["SoLuongNhap"].Value);
+                            dr.Cells["ThanhTien"].Value = so_luong_nhap * Convert.ToInt32(dr.Cells["DonGia"].Value);
+                        }
+                        TinhTongTien();
+                    }
+                }
                 else
                 {
-                    bool add = true;
-                    foreach (DataGridViewRow dr in dataGridView.Rows)
-                        if (dr.Cells["MaSach"].Value.ToString() == cb_MaSach.Text)
+                    int so_luong_nhap = 0;
+                    int so_luong_ton = 0;
+                    if (String.IsNullOrWhiteSpace(txt_TenSach.Text) || !int.TryParse(txt_SoLuongTon.Text, out so_luong_ton))
+                        MessageBox.Show("Mã sách không có trong cơ sở dữ liệu", "Thêm chi tiết nhập sách thất bại");
+                    else if (!int.TryParse(txt_SoLuongNhap.Text, out so_luong_nhap) || so_luong_nhap < bltThamSo.GetQD2A())
+                        MessageBox.Show("Phải có số lượng nhập phải lớn hơn " + bltThamSo.GetQD2A(), "Thêm chi tiết nhập sách thất bại");
+                    else if (so_luong_ton > bltThamSo.GetQD2B())
+                        MessageBox.Show("Số lượng tồn lớn hơn số lượng cần thiết để nhập", "Thêm chi tiết nhập sách thất bại");
+                    else
+                    {
+                        bool add = true;
+                        foreach (DataGridViewRow dr in dataGridView.Rows)
+                            if (dr.Cells["MaSach"].Value.ToString() == cb_MaSach.Text)
+                            {
+                                dr.Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
+                                add = false;
+                                break;
+                            }
+                        if (add)
                         {
-                            dr.Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
-                            add = false;
-                            break;
+                            var index = dataGridView.Rows.Add();
+                            dataGridView.Rows[index].Cells["MaSach"].Value = cb_MaSach.Text;
+                            dataGridView.Rows[index].Cells["TenSach"].Value = txt_TenSach.Text;
+                            dataGridView.Rows[index].Cells["SoLuongTon"].Value = txt_SoLuongTon.Text;
+                            dataGridView.Rows[index].Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
+                            dataGridView.Rows[index].Cells["DonGia"].Value = txt_DonGia.Text;
                         }
-                    if (add)
-                    {
-                        var index = dataGridView.Rows.Add();
-                        dataGridView.Rows[index].Cells["MaSach"].Value = cb_MaSach.Text;
-                        dataGridView.Rows[index].Cells["TenSach"].Value = txt_TenSach.Text;
-                        dataGridView.Rows[index].Cells["SoLuongTon"].Value = txt_SoLuongTon.Text;
-                        dataGridView.Rows[index].Cells["SoLuongNhap"].Value = txt_SoLuongNhap.Text;
-                        dataGridView.Rows[index].Cells["DonGia"].Value = txt_DonGia.Text;
-                    }
 
-                    foreach (DataGridViewRow dr in dataGridView.Rows)
-                    {
-                        so_luong_nhap = Convert.ToInt32(dr.Cells["SoLuongNhap"].Value);
-                        dr.Cells["ThanhTien"].Value = so_luong_nhap * Convert.ToInt32(dr.Cells["DonGia"].Value);
+                        foreach (DataGridViewRow dr in dataGridView.Rows)
+                        {
+                            so_luong_nhap = Convert.ToInt32(dr.Cells["SoLuongNhap"].Value);
+                            dr.Cells["ThanhTien"].Value = so_luong_nhap * Convert.ToInt32(dr.Cells["DonGia"].Value);
+                        }
+                        TinhTongTien();
                     }
-                    TinhTongTien();
                 }
+
             };
             btnXoa.Click += (s, e) =>
             {
@@ -156,11 +199,19 @@ namespace CNPM
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             bltNS= new NhapSachBLT(new DefaultNhapSachStrategy());
+            check = 1;
+            txt_QĐ1B.Text = (" ≤ " + bltThamSo.GetQD1B().ToString());
+            txt_QĐ1A.Text = (" ≥ " + bltThamSo.GetQD1A().ToString());
+
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
+            
             bltNS= new NhapSachBLT(new BackupNhapSachStrategy());
+            check = 2;
+            txt_QĐ1B.Text = (" ≤ " + bltThamSo.GetQD2B().ToString());
+            txt_QĐ1A.Text = (" ≥ " + bltThamSo.GetQD2A().ToString());
         }
     }
 }

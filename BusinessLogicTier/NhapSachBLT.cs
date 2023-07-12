@@ -88,6 +88,7 @@ namespace CNPM
             this.strategy = strategy;
         }
 
+
         public bool Them(NhapSach nhap_sach, List<ChiTietNhapSach> list_ctns)
         {
             if (strategy.KiemTraDieuKien(nhap_sach, list_ctns))
