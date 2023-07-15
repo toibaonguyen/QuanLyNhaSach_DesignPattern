@@ -6,7 +6,8 @@ using CNPM.DataAccessTier;
 
 namespace CNPM
 {
-    // Strategy
+
+    //This is NOT STRATEGYYYYYYYYYYYYYYYYYYYYYYYY
     interface INhapSachStrategy
     {
         bool KiemTraDieuKien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns);

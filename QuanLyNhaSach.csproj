@@ -77,11 +77,11 @@
     <Compile Include="DashLine.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataAccessTier\AccountDAT.cs" />
     <Compile Include="DataAccessTier\BaoCaoCongNoDAT.cs" />
     <Compile Include="DataAccessTier\BaoCaoTonDAT.cs" />
     <Compile Include="DataAccessTier\ThuTienDAT.cs" />
     <Compile Include="DataTransferObject\ThuTien.cs" />
-    <Compile Include="hàoh\ViewModelKhachHang.cs" />
     <Compile Include="NumberInput.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -9,7 +9,6 @@ using CNPM.DataAccessTier;
 namespace CNPM
 {
 
-    //Facade
     class HoaDonBLT
     {
         SachDAT objSach;
