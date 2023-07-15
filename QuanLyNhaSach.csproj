@@ -117,9 +117,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PhieuNhapSach.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PhieuNhapSach.cs" />
     <Compile Include="PhieuNhapSach.Designer.cs">
       <DependentUpon>PhieuNhapSach.cs</DependentUpon>
     </Compile>

@@ -11,8 +11,43 @@ using System.Text;
 
 namespace CNPM
 {
+    class ShippingFee
+    {
+        private int distance;
+        public ShippingFee(int distance) {
+            this.distance = distance;
+        }
+        public int Calc()
+        {
+            return 100 * this.distance;
+        }
+    }
+    class Fee
+    {
+        private int amount, value;
+        public Fee(int value,int amount) {
+            this.value = value;
+            this.amount = amount;
+                
+                }
+        public int Calc()
+        {
+            return this.amount * this.value;
+        }
+    }
 
-    
+    class facadeTinhTien
+    {
+        private ShippingFee objSF;
+        private Fee objF;
+
+        public int getTotal(int value = 0, int distance = 0, int amount = 0)
+        {
+            this.objF = new Fee(value, amount);
+            this.objSF = new ShippingFee(distance);
+            return objSF.Calc() + objF.Calc();
+        }
+    }
     public partial class PhieuNhapSach : Form
     {
         SachBLT bltSach = new SachBLT();
@@ -111,7 +146,7 @@ namespace CNPM
                         foreach (DataGridViewRow dr in dataGridView.Rows)
                         {
                             so_luong_nhap = Convert.ToInt32(dr.Cells["SoLuongNhap"].Value);
-                            dr.Cells["ThanhTien"].Value = so_luong_nhap * Convert.ToInt32(dr.Cells["DonGia"].Value);
+                            dr.Cells["ThanhTien"].Value = (new facadeTinhTien()).getTotal(Convert.ToInt32(dr.Cells["DonGia"].Value),15, so_luong_nhap);
                         }
                         TinhTongTien();
                     }
