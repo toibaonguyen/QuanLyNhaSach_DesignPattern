@@ -8,14 +8,20 @@ using CNPM.DataAccessTier;
 
 namespace CNPM
 {
+
     //Facade
     class HoaDonBLT
     {
-        SachDAT objSach = new SachDAT();
-        ThamSoDAT objThamSo = new ThamSoDAT();
-        HoaDonDAT objHoaDon = new HoaDonDAT();
-        KhachHangDAT objKhachHang = new KhachHangDAT();
-
+        SachDAT objSach;
+        ThamSoDAT objThamSo;
+        HoaDonDAT objHoaDon;
+        KhachHangDAT objKhachHang;
+        public HoaDonBLT() {
+            objSach = new SachDAT();
+            objThamSo = new ThamSoDAT();
+            objHoaDon = new HoaDonDAT();
+            objKhachHang = new KhachHangDAT();
+        }
         public bool Them(HoaDon hoa_don, List<ChiTietHoaDon> list_cthd)
         {
             for (int i = 0; i < list_cthd.Count; i++)

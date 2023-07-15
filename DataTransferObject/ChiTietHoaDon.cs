@@ -16,5 +16,6 @@ namespace CNPM
             MaSach = 0;
             SoLuongBan = 0;
         }
+
     }
 }

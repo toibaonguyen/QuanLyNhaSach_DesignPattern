@@ -81,6 +81,7 @@
     <Compile Include="DataAccessTier\BaoCaoTonDAT.cs" />
     <Compile Include="DataAccessTier\ThuTienDAT.cs" />
     <Compile Include="DataTransferObject\ThuTien.cs" />
+    <Compile Include="hàoh\ViewModelKhachHang.cs" />
     <Compile Include="NumberInput.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -106,9 +107,7 @@
     <Compile Include="LapHoaDon.Designer.cs">
       <DependentUpon>LapHoaDon.cs</DependentUpon>
     </Compile>
-    <Compile Include="KhachHangForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="KhachHangForm.cs" />
     <Compile Include="KhachHangForm.Designer.cs">
       <DependentUpon>KhachHangForm.cs</DependentUpon>
     </Compile>
@@ -195,6 +194,7 @@
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

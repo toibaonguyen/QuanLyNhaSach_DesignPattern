@@ -11,6 +11,7 @@ namespace CNPM.DataAccessTier
     {
         public ThamSoDAT()
         {
+
         }
 
         public int GetQD1A()

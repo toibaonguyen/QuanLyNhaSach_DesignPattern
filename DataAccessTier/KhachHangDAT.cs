@@ -7,6 +7,7 @@ using System.Text;
 
 namespace CNPM.DataAccessTier
 {
+    
     class KhachHangDAT
     {
         public KhachHangDAT() { }
@@ -106,4 +107,5 @@ namespace CNPM.DataAccessTier
             return res;
         }
     }
+
 }

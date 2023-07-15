@@ -68,7 +68,7 @@ namespace CNPM
         public void ThucHien(NhapSach nhapSach, List<ChiTietNhapSach> list_ctns)
         {
             nhapSach.MaPhieuNhap = objNhapSach.ThemPhieuNhap(nhapSach);
-            for (int i = 0; i < list_ctns.Count; i++)
+            for (int i = list_ctns.Count; i >0; --i)
             {
                 list_ctns[i].MaPhieuNhap = nhapSach.MaPhieuNhap;
                 objNhapSach.ThemChiTietNhapSach(list_ctns[i]);

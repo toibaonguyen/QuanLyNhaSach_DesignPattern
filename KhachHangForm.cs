@@ -9,6 +9,65 @@ using System.Text;
 
 namespace CNPM
 {
+    public interface IObserver
+    {
+        void Notify(string message);
+    }
+
+
+    // Định nghĩa giao diện IObservable
+    public interface IObservable
+    {
+        void Attach(IObserver observer);
+        void Detach(IObserver observer);
+        void Notice(string message);
+    }
+
+    // Lớp ConcreteObservable triển khai giao diện IObservable
+    public class Operation : IObservable
+    {
+        private string message;
+        private List<IObserver> _observers = new List<IObserver>();
+
+        public string Message
+        {
+            get { return message; }
+            set
+            {
+                if (message != value)
+                {
+                    message = value;
+                    Notice(message);
+                }
+            }
+        }
+
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notice(string message)
+        {
+            foreach (IObserver observer in _observers)
+            {
+                observer.Notify(message);
+            }
+        }
+    }
+
+    public class ShowMessage : IObserver
+    {
+        public void Notify(string message)
+        {
+            MessageBox.Show($"Thông báo từ hệ thống: {message}");
+        }
+    }
     public partial class KhachHangForm : Form
     {
         HoaDonBLT objHD = new HoaDonBLT();
@@ -17,66 +76,7 @@ namespace CNPM
 
           // Code thêm vào
 
-        // Định nghĩa giao diện IObserver
-        public interface IObserver
-        {
-            void Notify(string message);
-        }
-
-
-        // Định nghĩa giao diện IObservable
-        public interface IObservable
-        {
-            void Attach(IObserver observer);
-            void Detach(IObserver observer);
-            void Notice(string message);
-        }
-
-        // Lớp ConcreteObservable triển khai giao diện IObservable
-        public class Operation : IObservable
-        {
-            private string message;
-            private List<IObserver> _observers = new List<IObserver>();
-
-            public string Message
-            {
-                get { return message; }
-                set
-                {
-                    if (message != value)
-                    {
-                        message = value;
-                        Notice(message);
-                    }
-                }
-            }
-
-            public void Attach(IObserver observer)
-            {
-                _observers.Add(observer);
-            }
-
-            public void Detach(IObserver observer)
-            {
-                _observers.Remove(observer);
-            }
-
-            public void Notice(string message)
-            {
-                foreach (IObserver observer in _observers)
-                {
-                    observer.Notify(message);
-                }
-            }
-        }
-
-        public class ShowMessage : IObserver
-        {
-            public void Notify(string message)
-            {
-               MessageBox.Show($"Thông báo từ hệ thống: {message}");
-            }
-        }
+   
 
 
 
@@ -220,7 +220,13 @@ namespace CNPM
                 dgv_KhachHang_HoaDon.Columns[4].HeaderText = "Số Tiềm Trả";
                 foreach (DataGridViewColumn column in dgv_KhachHang_HoaDon.Columns)
                     column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }catch{}
+            }catch{
+            }
+        }
+
+        private void btn_add_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

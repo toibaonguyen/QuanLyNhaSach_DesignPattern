@@ -16,5 +16,6 @@ namespace CNPM
             DateTime to = from.AddMonths(1);
             return objBaoCao.getBaoCaoTable(from, to);
         }
+
     }
 }

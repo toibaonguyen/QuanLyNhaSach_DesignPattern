@@ -112,8 +112,15 @@ namespace CNPM
                 tabControl.SelectedIndex = 0;
             };
             txt_filter_SoLuong.Text = SoLuongToiThieu.ToString();
-        }
 
+            Load();
+
+        }
+        
+         private void Load()
+        {
+           
+        }
         private void showSelected()
         {
             try
@@ -125,7 +132,9 @@ namespace CNPM
                 txt_sua_SoLuong.Text = dgv_Sach.CurrentRow.Cells[4].Value.ToString();
                 txt_sua_DonGia.Text = dgv_Sach.CurrentRow.Cells[5].Value.ToString();
             }
-            catch { }
+            catch { 
+
+            }
         }
     }
 }

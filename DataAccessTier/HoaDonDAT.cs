@@ -13,7 +13,6 @@ namespace CNPM.DataAccessTier
 
         public int ThemHoaDon(HoaDon s)
         {
-
             DBConnection conn = DBConnection.Instance;
             OleDbCommand cmd = new OleDbCommand("Insert into HOADON(MaKhachHang, NgayLap, TriGia, SoTienTra) values (@1, @2, @3, @4)", conn.getConn());
             cmd.Parameters.Add("@1", OleDbType.Numeric).Value = s.MaKhachHang;
